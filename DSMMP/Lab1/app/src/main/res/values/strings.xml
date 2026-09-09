@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Такси Калькулятор</string>
+    <string name="title_taxi_calculator">Калькулятор поездки</string>
+    <string name="subtitle_taxi_calculator">Рассчитайте точную стоимость в пару кликов</string>
+    <string name="section_car_class">Класс автомобиля</string>
+    <string name="section_tariff_zone">Тарифная зона</string>
+    <string name="section_options">Дополнительные опции</string>
+    <string name="section_passengers">Количество пассажиров</string>
+    <string name="section_demand">Коэффициент спроса</string>
+    <string name="section_breakdown">Структура стоимости</string>
+    <string name="btn_proceed">Оформить поездку →</string>
+    <string name="btn_confirm">Подтвердить заказ</string>
+    <string name="btn_cancel">← Назад</string>
+    <string name="order_confirmation_title">Подтверждение заказа</string>
+    <string name="order_details_header">Детали вашей поездки</string>
+</resources>

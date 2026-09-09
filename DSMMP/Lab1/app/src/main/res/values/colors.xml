@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#FBC02D</color>
+    <color name="primary_dark">#F57F17</color>
+    <color name="accent">#FF6F00</color>
+
+    <color name="text_primary">#1F1B16</color>
+    <color name="text_secondary">#635F57</color>
+
+    <color name="chart_base">#2E7D32</color>
+    <color name="chart_distance">#0288D1</color>
+    <color name="chart_time">#ED6C02</color>
+    <color name="chart_options">#9C27B0</color>
+
+    <color name="card_bg">#FFFFFF</color>
+    <color name="card_stroke">#E6E1D6</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

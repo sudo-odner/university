@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Lab1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/text_primary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Background & Surface -->
+        <item name="android:windowBackground">#F8F6F0</item>
+        <item name="android:statusBarColor">#F8F6F0</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <!-- Global Button text caps -->
+        <item name="textAllCaps">false</item>
+    </style>
+</resources>
