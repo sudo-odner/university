@@ -31,11 +31,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="96dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <!-- Responsive centering container for phone, tablet, and landscape -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="720dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -316,7 +321,7 @@
                     android:text="@string/type_commercial" />
             </RadioGroup>
 
-            <!-- Promo Field (shown for Commercial or both) -->
+            <!-- Promo Field (shown for Commercial) -->
             <LinearLayout
                 android:id="@+id/layoutPromo"
                 android:layout_width="match_parent"
@@ -378,7 +383,7 @@
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:hint="@string/reminder_label"
                 app:helperText="@string/reminder_helper"
                 app:helperTextEnabled="true">
@@ -390,31 +395,58 @@
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Action Buttons -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSubmit"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/primary_medical"
-                android:text="@string/btn_submit"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:cornerRadius="12dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Anchored Docked Bottom Action Panel: always visible and easily clickable -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottomActionPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/card_border">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="720dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnClear"
                 style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
                 android:text="@string/btn_clear_draft"
                 android:textAllCaps="false"
                 android:textColor="@color/primary_medical"
+                android:textSize="14sp"
                 app:cornerRadius="12dp"
                 app:strokeColor="@color/primary_medical" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSubmit"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="2"
+                android:backgroundTint="@color/primary_medical"
+                android:text="@string/btn_submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp" />
+
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
