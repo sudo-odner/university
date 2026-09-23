@@ -10,7 +10,10 @@ public class ValidatePhoneUseCase {
         String trimmed = phone.trim();
         String digitsOnly = trimmed.replaceAll("[^0-9]", "");
         if (digitsOnly.length() < 10 || digitsOnly.length() > 15) {
-            return ValidationResult.invalid("Номер телефона должен содержать от 10 до 15 цифр");
+            return ValidationResult.invalid("Формат: +7 (900) 000-00-00 (от 10 до 15 цифр)");
+        }
+        if (digitsOnly.length() == 11 && !digitsOnly.startsWith("7") && !digitsOnly.startsWith("8")) {
+            return ValidationResult.invalid("Проверьте код страны в номере телефона");
         }
         return ValidationResult.valid();
     }

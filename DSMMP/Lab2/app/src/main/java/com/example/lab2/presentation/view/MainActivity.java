@@ -1,10 +1,12 @@
 package com.example.lab2.presentation.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
@@ -441,7 +443,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (target != null) {
                 final View scrollTarget = target;
-                nestedScrollView.post(() -> nestedScrollView.smoothScrollTo(0, scrollTarget.getTop()));
+                scrollTarget.requestFocus();
+                nestedScrollView.post(() -> nestedScrollView.smoothScrollTo(0, Math.max(0, scrollTarget.getTop() - 32)));
             }
             showSnackbar(getString(R.string.msg_form_has_errors));
         }
@@ -480,6 +483,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showConfirmationDialog() {
+        hideKeyboard();
         Appointment appointment = buildCurrentAppointment();
 
         String payment = appointment.isCommercial() ?
@@ -637,6 +641,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSnackbar(String message) {
         Snackbar.make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void hideKeyboard() {
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
     }
 
     private abstract static class SimpleTextWatcher implements TextWatcher {
