@@ -1,0 +1,116 @@
+<resources>
+    <string name="app_name">Запись в клинику</string>
+    <string name="clinic_title">Клиника «Здоровье»</string>
+    <string name="clinic_subtitle">Электронная запись на приём к специалисту</string>
+    <string name="clinic_address">г. Москва, ул. Медицинская, д. 15, корп. 1</string>
+
+    <!-- Patient Info -->
+    <string name="section_patient">1. Данные пациента</string>
+    <string name="fio_label">ФИО пациента *</string>
+    <string name="fio_hint">Иванов Иван Иванович</string>
+    <string name="fio_helper">Укажите фамилию, имя и отчество (при наличии)</string>
+    <string name="fio_error">Введите корректные ФИО (не менее 2 слов, только буквы)</string>
+
+    <string name="dob_label">Дата рождения *</string>
+    <string name="dob_hint">Выберите дату рождения</string>
+    <string name="dob_helper">Дата выбирается через календарь</string>
+    <string name="dob_error">Укажите корректную дату рождения</string>
+
+    <string name="oms_label">Полис ОМС *</string>
+    <string name="oms_hint">16 цифр без пробелов</string>
+    <string name="oms_helper">16 цифр единого полиса ОМС</string>
+    <string name="oms_error">Номер полиса ОМС должен состоять ровно из 16 цифр</string>
+
+    <string name="phone_label">Контактный телефон *</string>
+    <string name="phone_hint">+7 999 123-45-67</string>
+    <string name="phone_helper">Для SMS-подтверждения записи</string>
+    <string name="phone_error">Введите корректный номер телефона (+7XXXXXXXXXX)</string>
+
+    <!-- Appointment Info -->
+    <string name="section_appointment">2. Параметры приёма</string>
+    <string name="specialty_label">Специализация врача *</string>
+    <string name="specialty_hint">Выберите специалиста из списка</string>
+    <string name="specialty_helper">Приём ведут врачи высшей категории</string>
+    <string name="specialty_error">Пожалуйста, выберите специализацию врача</string>
+
+    <string name="date_label">Желаемая дата приёма *</string>
+    <string name="date_hint">Выберите дату визита</string>
+    <string name="date_helper">Запись доступна на ближайшие 30 дней</string>
+    <string name="date_error">Выберите дату приёма (не ранее сегодняшнего дня)</string>
+
+    <string name="time_label">Желаемое время приёма *</string>
+    <string name="time_hint">Выберите удобное время</string>
+    <string name="time_helper">Часы работы клиники: 08:00 — 20:00</string>
+    <string name="time_error">Время приёма должно быть в интервале 08:00 — 20:00</string>
+
+    <string name="complaints_label">Жалобы и симптомы *</string>
+    <string name="complaints_hint">Опишите ваши симптомы или причину обращения...</string>
+    <string name="complaints_helper">Краткое описание жалоб поможет врачу подготовиться</string>
+    <string name="complaints_error">Опишите причину обращения (не менее 5 символов)</string>
+
+    <!-- Service Type & Bonus Promo -->
+    <string name="section_payment">3. Условия обслуживания</string>
+    <string name="type_oms">По полису ОМС (Бесплатно)</string>
+    <string name="type_commercial">Платный приём (2 500 ₽)</string>
+    <string name="promo_label">Промокод на скидку</string>
+    <string name="promo_hint">Например: ЗДОРОВЬЕ, ВЕСНА</string>
+    <string name="promo_helper">Скидка 20% по промокодам ЗДОРОВЬЕ, ВЕСНА, МЕД2024</string>
+    <string name="promo_applied">Промокод применён! Скидка 20% (-500 ₽)</string>
+    <string name="promo_invalid">Недействительный промокод</string>
+    <string name="price_total_oms">Итого к оплате: 0 ₽ (по ОМС)</string>
+    <string name="price_total_commercial">Итого к оплате: %1$d ₽</string>
+
+    <!-- Reminder & Calendar -->
+    <string name="section_reminder">4. Напоминание и календарь</string>
+    <string name="reminder_label">Напоминание о приёме</string>
+    <string name="reminder_helper">Заблаговременное оповещение в системный календарь</string>
+
+    <!-- Actions -->
+    <string name="btn_submit">Записаться на приём</string>
+    <string name="btn_clear_draft">Сбросить форму</string>
+
+    <!-- Dialogs & Messages -->
+    <string name="dialog_confirm_title">Подтверждение записи</string>
+    <string name="dialog_confirm_positive">Подтвердить запись</string>
+    <string name="dialog_confirm_negative">Изменить данные</string>
+
+    <string name="dialog_permission_title">Разрешение на уведомления</string>
+    <string name="dialog_permission_message">Клинике требуется разрешение на отправку push-уведомлений, чтобы вовремя напомнить вам о запланированном приёме врача.</string>
+    <string name="dialog_permission_positive">Разрешить</string>
+    <string name="dialog_permission_negative">Не сейчас</string>
+
+    <string name="dialog_success_title">Запись успешно оформлена!</string>
+    <string name="dialog_success_message">Талон на приём сформирован. Рекомендуем добавить напоминание в ваш системный календарь, чтобы не пропустить визит.</string>
+    <string name="dialog_success_calendar">В календарь</string>
+    <string name="dialog_success_close">Готово</string>
+
+    <string name="msg_draft_restored">Черновик формы восстановлен</string>
+    <string name="msg_draft_cleared">Форма очищена</string>
+    <string name="msg_permission_granted">Уведомления успешно подключены</string>
+    <string name="msg_permission_denied">Уведомления отключены. Форма работает в штатном режиме.</string>
+    <string name="msg_no_calendar_app">Приложение календаря не найдено на устройстве</string>
+    <string name="msg_form_has_errors">Пожалуйста, исправьте ошибки в форме перед отправкой</string>
+
+    <!-- Specialties list -->
+    <string-array name="specialties_array">
+        <item>Терапевт (участковый врач)</item>
+        <item>Хирург</item>
+        <item>Невролог</item>
+        <item>Офтальмолог (окулист)</item>
+        <item>Оториноларинголог (ЛОР)</item>
+        <item>Кардиолог</item>
+        <item>Педиатр</item>
+        <item>Дерматолог</item>
+        <item>Эндокринолог</item>
+        <item>Стоматолог</item>
+        <item>Травматолог-ортопед</item>
+    </string-array>
+
+    <!-- Reminder intervals -->
+    <string-array name="reminder_array">
+        <item>За 1 час</item>
+        <item>За 2 часа</item>
+        <item>За 1 день (24 часа)</item>
+        <item>Без напоминания</item>
+    </string-array>
+</resources>
