@@ -255,7 +255,10 @@ fun ExpandedOverviewContent(
                 monthlyIncome = overview.monthlyIncome,
                 monthlyExpense = overview.monthlyExpense
             )
-            AccountsSection(accounts = overview.accounts)
+            AccountsSection(
+                accounts = overview.accounts,
+                isWideScreen = true
+            )
             CategoryDistributionSection(categoryExpenses = overview.categoryExpenses)
             Spacer(modifier = Modifier.height(16.dp))
         }

@@ -40,7 +40,6 @@ fun AccountCard(
 ) {
     Card(
         modifier = modifier
-            .width(220.dp)
             .height(130.dp),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
@@ -110,13 +109,14 @@ fun AccountCard(
 @Composable
 fun AccountsSection(
     accounts: List<Account>,
+    isWideScreen: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = if (isWideScreen) 0.dp else 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -134,12 +134,42 @@ fun AccountsSection(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(accounts, key = { it.id }) { account ->
-                AccountCard(account = account)
+        if (isWideScreen) {
+            // In wide/landscape mode: responsive 2-column grid of accounts fitting the left container
+            val chunkedAccounts = accounts.chunked(2)
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                chunkedAccounts.forEach { rowAccounts ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        rowAccounts.forEach { account ->
+                            AccountCard(
+                                account = account,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                        if (rowAccounts.size == 1) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                }
+            }
+        } else {
+            // In portrait phone mode: smooth horizontal carousel
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(accounts, key = { it.id }) { account ->
+                    AccountCard(
+                        account = account,
+                        modifier = Modifier.width(220.dp)
+                    )
+                }
             }
         }
     }
