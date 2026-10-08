@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -145,7 +147,9 @@ fun OverviewScreen(
             ) {
                 val overview = (uiState as? OverviewUiState.Content)?.overview
                 if (overview != null) {
-                    if (windowWidthSizeClass == WindowWidthSizeClass.Expanded) {
+                    val isWideScreen = windowWidthSizeClass == WindowWidthSizeClass.Expanded ||
+                            windowWidthSizeClass == WindowWidthSizeClass.Medium
+                    if (isWideScreen) {
                         ExpandedOverviewContent(
                             overview = overview,
                             onTransactionClick = onTransactionClick
@@ -234,14 +238,16 @@ fun ExpandedOverviewContent(
     Row(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Left Column (45%): Balance, Accounts carousel, Category analysis
+        // Left Column: Scrollable cards, balance, accounts, categories
+        val leftScrollState = rememberScrollState()
         Column(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxSize(),
+                .weight(1.1f)
+                .fillMaxSize()
+                .verticalScroll(leftScrollState),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             BalanceSummaryCard(
@@ -251,9 +257,10 @@ fun ExpandedOverviewContent(
             )
             AccountsSection(accounts = overview.accounts)
             CategoryDistributionSection(categoryExpenses = overview.categoryExpenses)
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Right Column (55%): Full Transaction List with higher density
+        // Right Column: Full Transaction List with higher density
         Column(
             modifier = Modifier
                 .weight(1.2f)
@@ -262,7 +269,7 @@ fun ExpandedOverviewContent(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 12.dp),
+                    .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
