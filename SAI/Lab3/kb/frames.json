@@ -1,0 +1,848 @@
+{
+  "frames": [
+    {
+      "name": "Сущность",
+      "parent": null,
+      "frame_type": "prototype",
+      "slot_defs": [],
+      "values": {},
+      "origins": {}
+    },
+    {
+      "name": "Кандидат",
+      "parent": "Сущность",
+      "frame_type": "prototype",
+      "slot_defs": [
+        {
+          "name": "фио",
+          "data_type": "string",
+          "inheritance": "U",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "comment": "Уникальный идентификатор соискателя"
+          }
+        },
+        {
+          "name": "образование",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "профильное",
+              "непрофильное"
+            ]
+          }
+        },
+        {
+          "name": "скрининг",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "да",
+              "нет"
+            ]
+          }
+        },
+        {
+          "name": "опыт_лет",
+          "data_type": "integer",
+          "inheritance": "R",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "min": 0,
+            "max": 50,
+            "comment": "Ограничение наследуется потомками"
+          }
+        },
+        {
+          "name": "интервью",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "отлично",
+              "хорошо",
+              "неудовлетворительно"
+            ]
+          }
+        },
+        {
+          "name": "командная_работа",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокая",
+              "средняя",
+              "низкая"
+            ]
+          }
+        },
+        {
+          "name": "коммуникация",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокие",
+              "средние",
+              "низкие"
+            ]
+          }
+        },
+        {
+          "name": "английский",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "b2_или_выше",
+              "ниже_b2"
+            ]
+          }
+        },
+        {
+          "name": "международный_опыт",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "да",
+              "нет"
+            ]
+          }
+        },
+        {
+          "name": "системное_мышление",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": "среднее",
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокое",
+              "среднее",
+              "низкое"
+            ]
+          }
+        },
+        {
+          "name": "hard_skills",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": "вычислить_hard_skills",
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокий",
+              "средний",
+              "базовый",
+              "низкий",
+              "не_определён"
+            ]
+          }
+        },
+        {
+          "name": "soft_skills",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": "вычислить_soft_skills",
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокий",
+              "средний",
+              "базовый",
+              "низкий",
+              "не_определён"
+            ]
+          }
+        },
+        {
+          "name": "международная_квалификация",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": "вычислить_международную_квалификацию",
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "подтверждена",
+              "не_подтверждена"
+            ]
+          }
+        },
+        {
+          "name": "рекомендация",
+          "data_type": "enum",
+          "inheritance": "U",
+          "default": null,
+          "if_needed": null,
+          "if_added": "зафиксировать_рекомендацию",
+          "if_removed": null,
+          "procedure": "сформировать_рекомендацию",
+          "facets": {
+            "domain": [
+              "принять_senior",
+              "принять_middle",
+              "испытательный_срок",
+              "кадровый_резерв",
+              "отказ"
+            ]
+          }
+        },
+        {
+          "name": "журнал",
+          "data_type": "list",
+          "inheritance": "U",
+          "default": [],
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {}
+        },
+        {
+          "name": "статус_рассмотрения",
+          "data_type": "string",
+          "inheritance": "S",
+          "default": "в_очереди",
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {}
+        },
+        {
+          "name": "рассматриваемая_вакансия",
+          "data_type": "frame",
+          "inheritance": "U",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {}
+        }
+      ],
+      "values": {},
+      "origins": {}
+    },
+    {
+      "name": "СоискательIT",
+      "parent": "Кандидат",
+      "frame_type": "prototype",
+      "slot_defs": [
+        {
+          "name": "фио",
+          "data_type": "string",
+          "inheritance": "U",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "comment": "Уникальный идентификатор соискателя"
+          }
+        },
+        {
+          "name": "образование",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "профильное",
+              "непрофильное"
+            ]
+          }
+        },
+        {
+          "name": "скрининг",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "да",
+              "нет"
+            ]
+          }
+        },
+        {
+          "name": "опыт_лет",
+          "data_type": "integer",
+          "inheritance": "R",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "min": 0,
+            "max": 50,
+            "comment": "Ограничение наследуется потомками"
+          }
+        },
+        {
+          "name": "интервью",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "отлично",
+              "хорошо",
+              "неудовлетворительно"
+            ]
+          }
+        },
+        {
+          "name": "командная_работа",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокая",
+              "средняя",
+              "низкая"
+            ]
+          }
+        },
+        {
+          "name": "коммуникация",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокие",
+              "средние",
+              "низкие"
+            ]
+          }
+        },
+        {
+          "name": "английский",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "b2_или_выше",
+              "ниже_b2"
+            ]
+          }
+        },
+        {
+          "name": "международный_опыт",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "да",
+              "нет"
+            ]
+          }
+        },
+        {
+          "name": "системное_мышление",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": "среднее",
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокое",
+              "среднее",
+              "низкое"
+            ]
+          }
+        },
+        {
+          "name": "hard_skills",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": "вычислить_hard_skills",
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокий",
+              "средний",
+              "базовый",
+              "низкий",
+              "не_определён"
+            ]
+          }
+        },
+        {
+          "name": "soft_skills",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": "вычислить_soft_skills",
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "высокий",
+              "средний",
+              "базовый",
+              "низкий",
+              "не_определён"
+            ]
+          }
+        },
+        {
+          "name": "международная_квалификация",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": "вычислить_международную_квалификацию",
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "подтверждена",
+              "не_подтверждена"
+            ]
+          }
+        },
+        {
+          "name": "рекомендация",
+          "data_type": "enum",
+          "inheritance": "U",
+          "default": null,
+          "if_needed": null,
+          "if_added": "зафиксировать_рекомендацию",
+          "if_removed": null,
+          "procedure": "сформировать_рекомендацию",
+          "facets": {
+            "domain": [
+              "принять_senior",
+              "принять_middle",
+              "испытательный_срок",
+              "кадровый_резерв",
+              "отказ"
+            ]
+          }
+        },
+        {
+          "name": "журнал",
+          "data_type": "list",
+          "inheritance": "U",
+          "default": [],
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {}
+        },
+        {
+          "name": "статус_рассмотрения",
+          "data_type": "string",
+          "inheritance": "S",
+          "default": "в_очереди",
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {}
+        },
+        {
+          "name": "рассматриваемая_вакансия",
+          "data_type": "frame",
+          "inheritance": "U",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {}
+        },
+        {
+          "name": "направление",
+          "data_type": "string",
+          "inheritance": "S",
+          "default": "разработка ПО",
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "comment": "наследуется экземплярами"
+          }
+        }
+      ],
+      "values": {},
+      "origins": {}
+    },
+    {
+      "name": "Вакансия",
+      "parent": "Сущность",
+      "frame_type": "prototype",
+      "slot_defs": [
+        {
+          "name": "название",
+          "data_type": "string",
+          "inheritance": "U",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {}
+        },
+        {
+          "name": "требуемый_уровень",
+          "data_type": "enum",
+          "inheritance": "S",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "domain": [
+              "принять_senior",
+              "принять_middle",
+              "испытательный_срок",
+              "кадровый_резерв",
+              "отказ"
+            ]
+          }
+        },
+        {
+          "name": "минимальный_опыт",
+          "data_type": "integer",
+          "inheritance": "R",
+          "default": null,
+          "if_needed": null,
+          "if_added": null,
+          "if_removed": null,
+          "procedure": null,
+          "facets": {
+            "min": 0,
+            "max": 50
+          }
+        }
+      ],
+      "values": {},
+      "origins": {}
+    },
+    {
+      "name": "ВакансияSenior",
+      "parent": "Вакансия",
+      "frame_type": "instance",
+      "slot_defs": [],
+      "values": {
+        "название": "Senior-разработчик",
+        "требуемый_уровень": "принять_senior",
+        "минимальный_опыт": 5
+      },
+      "origins": {
+        "название": "собственное значение",
+        "требуемый_уровень": "собственное значение",
+        "минимальный_опыт": "собственное значение"
+      }
+    },
+    {
+      "name": "ВакансияMiddle",
+      "parent": "Вакансия",
+      "frame_type": "instance",
+      "slot_defs": [],
+      "values": {
+        "название": "Middle-разработчик",
+        "требуемый_уровень": "принять_middle",
+        "минимальный_опыт": 3
+      },
+      "origins": {
+        "название": "собственное значение",
+        "требуемый_уровень": "собственное значение",
+        "минимальный_опыт": "собственное значение"
+      }
+    },
+    {
+      "name": "ВакансияJunior",
+      "parent": "Вакансия",
+      "frame_type": "instance",
+      "slot_defs": [],
+      "values": {
+        "название": "Junior-разработчик",
+        "требуемый_уровень": "испытательный_срок",
+        "минимальный_опыт": 0
+      },
+      "origins": {
+        "название": "собственное значение",
+        "требуемый_уровень": "собственное значение",
+        "минимальный_опыт": "собственное значение"
+      }
+    },
+    {
+      "name": "Иванов",
+      "parent": "СоискательIT",
+      "frame_type": "instance",
+      "slot_defs": [],
+      "values": {
+        "фио": "Иванов",
+        "образование": "профильное",
+        "скрининг": "да",
+        "опыт_лет": 8,
+        "интервью": "отлично",
+        "командная_работа": "высокая",
+        "коммуникация": "высокие",
+        "английский": "b2_или_выше",
+        "международный_опыт": "да",
+        "системное_мышление": "высокое",
+        "рассматриваемая_вакансия": "ВакансияSenior",
+        "рекомендация": "принять_senior",
+        "журнал": [
+          "Рекомендация установлена: принять_senior"
+        ],
+        "статус_рассмотрения": "рассмотрен"
+      },
+      "origins": {
+        "фио": "собственное значение",
+        "образование": "собственное значение",
+        "скрининг": "собственное значение",
+        "опыт_лет": "собственное значение",
+        "интервью": "собственное значение",
+        "командная_работа": "собственное значение",
+        "коммуникация": "собственное значение",
+        "английский": "собственное значение",
+        "международный_опыт": "собственное значение",
+        "системное_мышление": "собственное значение",
+        "рассматриваемая_вакансия": "собственное значение",
+        "hard_skills": "демон if-needed",
+        "soft_skills": "демон if-needed",
+        "международная_квалификация": "демон if-needed",
+        "рекомендация": "служебная процедура",
+        "журнал": "демон if-added",
+        "статус_рассмотрения": "демон if-added"
+      }
+    },
+    {
+      "name": "Петров",
+      "parent": "СоискательIT",
+      "frame_type": "instance",
+      "slot_defs": [],
+      "values": {
+        "фио": "Петров",
+        "образование": "профильное",
+        "скрининг": "да",
+        "опыт_лет": 4,
+        "интервью": "хорошо",
+        "командная_работа": "высокая",
+        "коммуникация": "высокие",
+        "английский": "ниже_b2",
+        "международный_опыт": "нет",
+        "рассматриваемая_вакансия": "ВакансияMiddle",
+        "рекомендация": "принять_middle",
+        "журнал": [
+          "Рекомендация установлена: принять_middle"
+        ],
+        "статус_рассмотрения": "рассмотрен"
+      },
+      "origins": {
+        "фио": "собственное значение",
+        "образование": "собственное значение",
+        "скрининг": "собственное значение",
+        "опыт_лет": "собственное значение",
+        "интервью": "собственное значение",
+        "командная_работа": "собственное значение",
+        "коммуникация": "собственное значение",
+        "английский": "собственное значение",
+        "международный_опыт": "собственное значение",
+        "рассматриваемая_вакансия": "собственное значение",
+        "hard_skills": "демон if-needed",
+        "soft_skills": "демон if-needed",
+        "международная_квалификация": "демон if-needed",
+        "рекомендация": "служебная процедура",
+        "журнал": "демон if-added",
+        "статус_рассмотрения": "демон if-added"
+      }
+    },
+    {
+      "name": "Сидоров",
+      "parent": "СоискательIT",
+      "frame_type": "instance",
+      "slot_defs": [],
+      "values": {
+        "фио": "Сидоров",
+        "образование": "профильное",
+        "скрининг": "да",
+        "опыт_лет": 2,
+        "интервью": "хорошо",
+        "командная_работа": "средняя",
+        "коммуникация": "высокие",
+        "английский": "ниже_b2",
+        "международный_опыт": "нет",
+        "рассматриваемая_вакансия": "ВакансияJunior",
+        "рекомендация": "испытательный_срок",
+        "журнал": [
+          "Рекомендация установлена: испытательный_срок"
+        ],
+        "статус_рассмотрения": "рассмотрен"
+      },
+      "origins": {
+        "фио": "собственное значение",
+        "образование": "собственное значение",
+        "скрининг": "собственное значение",
+        "опыт_лет": "собственное значение",
+        "интервью": "собственное значение",
+        "командная_работа": "собственное значение",
+        "коммуникация": "собственное значение",
+        "английский": "собственное значение",
+        "международный_опыт": "собственное значение",
+        "рассматриваемая_вакансия": "собственное значение",
+        "hard_skills": "демон if-needed",
+        "soft_skills": "демон if-needed",
+        "международная_квалификация": "демон if-needed",
+        "рекомендация": "служебная процедура",
+        "журнал": "демон if-added",
+        "статус_рассмотрения": "демон if-added"
+      }
+    },
+    {
+      "name": "Кузнецов",
+      "parent": "СоискательIT",
+      "frame_type": "instance",
+      "slot_defs": [],
+      "values": {
+        "фио": "Кузнецов",
+        "образование": "непрофильное",
+        "скрининг": "нет",
+        "опыт_лет": 1,
+        "интервью": "неудовлетворительно",
+        "командная_работа": "средняя",
+        "коммуникация": "средние",
+        "английский": "ниже_b2",
+        "международный_опыт": "нет",
+        "рассматриваемая_вакансия": "ВакансияJunior",
+        "рекомендация": "отказ",
+        "журнал": [
+          "Рекомендация установлена: отказ"
+        ],
+        "статус_рассмотрения": "рассмотрен"
+      },
+      "origins": {
+        "фио": "собственное значение",
+        "образование": "собственное значение",
+        "скрининг": "собственное значение",
+        "опыт_лет": "собственное значение",
+        "интервью": "собственное значение",
+        "командная_работа": "собственное значение",
+        "коммуникация": "собственное значение",
+        "английский": "собственное значение",
+        "международный_опыт": "собственное значение",
+        "рассматриваемая_вакансия": "собственное значение",
+        "рекомендация": "служебная процедура",
+        "журнал": "демон if-added",
+        "статус_рассмотрения": "демон if-added"
+      }
+    }
+  ],
+  "procedures": [
+    "вычислить_hard_skills",
+    "вычислить_soft_skills",
+    "вычислить_международную_квалификацию",
+    "сформировать_рекомендацию"
+  ],
+  "triggers": [
+    "зафиксировать_рекомендацию"
+  ]
+}
