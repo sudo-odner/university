@@ -1,0 +1,15 @@
+[versions]
+agp = "9.4.1"
+room = "2.7.2"
+lifecycle = "2.9.2"
+work = "2.10.3"
+[libraries]
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycle" }
+lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "lifecycle" }
+work = { module = "androidx.work:work-runtime", version.ref = "work" }
+core = { module = "androidx.core:core", version = "1.15.0" }
+junit = { module = "junit:junit", version = "4.13.2" }
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
