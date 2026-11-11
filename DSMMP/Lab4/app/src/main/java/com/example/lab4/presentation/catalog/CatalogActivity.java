@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.lab4.domain.model.Recipe;
 import com.example.lab4.presentation.common.AppGraph;
@@ -29,6 +30,8 @@ public class CatalogActivity extends AppCompatActivity {
     private LinearLayout empty;
     private TextView count;
     private EditText search;
+    private boolean gridMode;
+    private TextView layoutToggle;
     private List<Recipe> all = new ArrayList<>();
     private android.os.Parcelable scrollState;
     @Override public void onCreate(Bundle state) {
@@ -48,12 +51,21 @@ public class CatalogActivity extends AppCompatActivity {
         Ui.space(root, 24);
         LinearLayout heading = new LinearLayout(this); heading.setGravity(Gravity.CENTER_VERTICAL);
         TextView label = Ui.text(this, "Коллекция", 22, true); heading.addView(label, new LinearLayout.LayoutParams(0, -2, 1));
-        count = Ui.muted(this, "", 14); heading.addView(count); root.addView(heading); Ui.space(root, 14);
+        count = Ui.muted(this, "", 14); heading.addView(count);
+        layoutToggle = Ui.text(this, "▦", 25, false); layoutToggle.setTextColor(Ui.ACCENT);
+        layoutToggle.setGravity(Gravity.CENTER); layoutToggle.setContentDescription("Переключить список и сетку");
+        LinearLayout.LayoutParams toggleParams = new LinearLayout.LayoutParams(Ui.dp(this, 48), Ui.dp(this, 48));
+        toggleParams.leftMargin = Ui.dp(this, 12); heading.addView(layoutToggle, toggleParams);
+        layoutToggle.setOnClickListener(v -> setGridMode(!gridMode));
+        root.addView(heading); Ui.space(root, 14);
         FrameLayout content = new FrameLayout(this); root.addView(content, new LinearLayout.LayoutParams(-1, 0, 1));
-        list = new RecyclerView(this); list.setLayoutManager(new LinearLayoutManager(this)); list.setClipToPadding(false);
+        list = new RecyclerView(this);
+        gridMode = getPreferences(MODE_PRIVATE).getBoolean("grid", false);
+        list.setLayoutManager(gridMode ? new GridLayoutManager(this, 2) : new LinearLayoutManager(this)); list.setClipToPadding(false);
         list.setPadding(0, 0, 0, Ui.dp(this, 84));
         adapter = new RecipeAdapter(id -> startActivity(new Intent(this, DetailActivity.class).putExtra("id", id)));
-        list.setAdapter(adapter); content.addView(list, new FrameLayout.LayoutParams(-1, -1));
+        list.setAdapter(adapter); adapter.setGridMode(gridMode);
+        layoutToggle.setText(gridMode ? "☰" : "▦"); content.addView(list, new FrameLayout.LayoutParams(-1, -1));
         empty = new LinearLayout(this); empty.setOrientation(LinearLayout.VERTICAL); empty.setGravity(Gravity.CENTER);
         empty.setPadding(Ui.dp(this, 24), Ui.dp(this, 30), Ui.dp(this, 24), Ui.dp(this, 30));
         empty.setBackground(Ui.rounded(this, Ui.SAND, 24));
@@ -74,6 +86,13 @@ public class CatalogActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) { }
         });
         if (state != null) { scrollState = state.getParcelable("scroll"); search.setText(state.getString("query", "")); }
+    }
+    private void setGridMode(boolean value) {
+        gridMode = value; getPreferences(MODE_PRIVATE).edit().putBoolean("grid", value).apply();
+        int position = ((LinearLayoutManager)list.getLayoutManager()).findFirstVisibleItemPosition();
+        list.setLayoutManager(value ? new GridLayoutManager(this, 2) : new LinearLayoutManager(this));
+        adapter.setGridMode(value); layoutToggle.setText(value ? "☰" : "▦");
+        list.getLayoutManager().scrollToPosition(Math.max(0, position));
     }
     private void openEditor() { startActivity(new Intent(this, EditorActivity.class)); }
     private void showFiltered() {

@@ -21,6 +21,12 @@ public class RecipeActions {
     public Recipe get(long id) { return recipes.get(id); }
     public long add(Recipe recipe) { return recipes.add(recipe); }
 
+    public String findCalendarConflict(long id, long startsAtMillis) throws Exception {
+        Recipe recipe = recipes.get(id);
+        if (recipe == null) throw new IllegalArgumentException("Рецепт не найден");
+        return calendar.findConflict(startsAtMillis, recipe.calendarEventId);
+    }
+
     public void schedule(long id, long startsAtMillis, boolean weekly) throws Exception {
         Recipe recipe = recipes.get(id);
         if (recipe == null) throw new IllegalArgumentException("Рецепт не найден");

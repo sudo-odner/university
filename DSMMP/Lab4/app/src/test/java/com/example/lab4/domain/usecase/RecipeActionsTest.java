@@ -25,6 +25,7 @@ public class RecipeActionsTest {
     }
     static class Calendar implements CalendarRepository {
         Long deleted;
+        @Override public String findConflict(long starts, Long excluded) { return null; }
         @Override public long schedule(String title, long starts, boolean weekly) { return 9L; }
         @Override public void delete(long id) { deleted = id; }
     }

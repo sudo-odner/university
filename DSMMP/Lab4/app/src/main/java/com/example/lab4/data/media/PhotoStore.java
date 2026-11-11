@@ -42,11 +42,22 @@ public class PhotoStore implements PhotoRepository {
         File directory = new File(context.getFilesDir(), "images");
         if (!directory.exists() && !directory.mkdirs()) throw new IllegalStateException("Не удалось создать папку изображений");
         File output = new File(directory, UUID.randomUUID() + ".jpg");
-        try (FileOutputStream stream = new FileOutputStream(output)) {
-            if (!scaled.compress(Bitmap.CompressFormat.JPEG, 80, stream)) throw new IllegalStateException("Не удалось сохранить фотографию");
+        try {
+            int quality = 80;
+            while (true) {
+                try (FileOutputStream stream = new FileOutputStream(output, false)) {
+                    if (!scaled.compress(Bitmap.CompressFormat.JPEG, quality, stream))
+                        throw new IllegalStateException("Не удалось сохранить фотографию");
+                }
+                if (output.length() <= 500_000 || scaled.getWidth() <= 256 && scaled.getHeight() <= 256) break;
+                if (quality > 60) { quality -= 10; continue; }
+                Bitmap smaller = Bitmap.createScaledBitmap(scaled,
+                        Math.max(1, Math.round(scaled.getWidth() * .75f)),
+                        Math.max(1, Math.round(scaled.getHeight() * .75f)), true);
+                scaled.recycle(); scaled = smaller; quality = 80;
+            }
         } catch (Exception e) {
-            output.delete();
-            throw e;
+            output.delete(); throw e;
         } finally { scaled.recycle(); }
         return output.getAbsolutePath();
     }

@@ -20,6 +20,22 @@ public class AndroidCalendarRepository implements CalendarRepository {
             ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED)
             throw new SecurityException("Нет доступа к календарю");
     }
+    @Override public String findConflict(long startsAt, Long excludedEventId) throws Exception {
+        checkPermission();
+        long endsAt = startsAt + 60 * 60 * 1000L;
+        try (Cursor c = CalendarContract.Instances.query(context.getContentResolver(),
+                new String[]{CalendarContract.Instances.EVENT_ID, CalendarContract.Instances.TITLE,
+                        CalendarContract.Instances.BEGIN, CalendarContract.Instances.END}, startsAt, endsAt)) {
+            if (c == null) return null;
+            while (c.moveToNext()) {
+                long id = c.getLong(0);
+                if (excludedEventId != null && id == excludedEventId) continue;
+                if (c.getLong(2) < endsAt && c.getLong(3) > startsAt)
+                    return c.getString(1) == null ? "Другое событие" : c.getString(1);
+            }
+        }
+        return null;
+    }
     @Override public long schedule(String title, long startsAt, boolean weekly) throws Exception {
         checkPermission();
         ContentResolver resolver = context.getContentResolver();

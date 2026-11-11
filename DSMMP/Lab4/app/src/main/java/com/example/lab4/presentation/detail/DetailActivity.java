@@ -107,11 +107,24 @@ public class DetailActivity extends AppCompatActivity {
             day.set(year, month, date);
             new TimePickerDialog(this, (timePicker, hour, minute) -> {
                 day.set(Calendar.HOUR_OF_DAY, hour); day.set(Calendar.MINUTE, minute); day.set(Calendar.SECOND, 0);
+                if (day.getTimeInMillis() <= System.currentTimeMillis()) {
+                    Toast.makeText(this, "Выберите будущую дату и время", Toast.LENGTH_LONG).show(); return;
+                }
                 CheckBox weekly = new CheckBox(this); weekly.setText("Повторять каждую неделю");
-                new AlertDialog.Builder(this).setTitle("План готовки")
-                        .setMessage("Событие: «Приготовить: " + recipe.title + "». Напоминание за 1 час.")
-                        .setView(weekly).setNegativeButton("Отмена", null)
-                        .setPositiveButton("Создать", (dialog, which) -> schedule(day.getTimeInMillis(), weekly.isChecked())).show();
+                LinearLayout options = new LinearLayout(this); options.setOrientation(LinearLayout.VERTICAL);
+                options.setPadding(Ui.dp(this, 24), 0, Ui.dp(this, 24), 0); options.addView(weekly);
+                AppGraph.IO.execute(() -> {
+                    try {
+                        String conflict = AppGraph.actions(this).findCalendarConflict(id, day.getTimeInMillis());
+                        runOnUiThread(() -> new AlertDialog.Builder(this).setTitle("План готовки")
+                                .setMessage("Приготовить: " + recipe.title + "\n" +
+                                        android.text.format.DateFormat.format("d MMMM yyyy, HH:mm", day) +
+                                        "\nНапоминание за 1 час." +
+                                        (conflict == null ? "" : "\n\nНа это время уже есть событие: «" + conflict + "»."))
+                                .setView(options).setNegativeButton("Отмена", null)
+                                .setPositiveButton("Сохранить", (dialog, which) -> schedule(day.getTimeInMillis(), weekly.isChecked())).show());
+                    } catch (Exception e) { runOnUiThread(() -> Toast.makeText(this, "Календарь: " + e.getMessage(), Toast.LENGTH_LONG).show()); }
+                });
             }, day.get(Calendar.HOUR_OF_DAY), day.get(Calendar.MINUTE), true).show();
         }, day.get(Calendar.YEAR), day.get(Calendar.MONTH), day.get(Calendar.DAY_OF_MONTH)).show();
     }
