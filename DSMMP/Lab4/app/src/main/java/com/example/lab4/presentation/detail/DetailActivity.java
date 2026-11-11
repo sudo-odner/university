@@ -46,24 +46,56 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
     private void showRecipe() {
+        getWindow().setStatusBarColor(Ui.CREAM);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         ScrollView scroll = new ScrollView(this); LinearLayout root = Ui.column(this); scroll.addView(root);
-        root.addView(Ui.text(this, recipe.title, 30, true));
-        root.addView(Ui.text(this, recipe.category + " · " + recipe.minutes + " мин", 16, false));
+        android.widget.TextView back = Ui.muted(this, "‹  Все рецепты", 16);
+        back.setMinHeight(Ui.dp(this, 48)); back.setGravity(android.view.Gravity.CENTER_VERTICAL); root.addView(back); back.setOnClickListener(v -> finish()); Ui.space(root, 18);
         ImageView image = new ImageView(this); image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        root.addView(image, new LinearLayout.LayoutParams(-1, Ui.dp(this, 260)));
-        Glide.with(this).load(new File(recipe.imagePath)).override(900, 900).into(image);
+        image.setBackground(Ui.rounded(this, Ui.SAND, 22)); image.setClipToOutline(true);
+        root.addView(image, new LinearLayout.LayoutParams(-1, Ui.dp(this, 270)));
+        Glide.with(this).load(new File(recipe.imagePath)).override(900, 900).centerCrop().into(image);
+        image.setContentDescription("Открыть фотографию блюда крупно");
         image.setOnClickListener(v -> startActivity(new Intent(this, PhotoActivity.class).putExtra("path", recipe.imagePath)));
-        root.addView(Ui.text(this, "Ингредиенты", 22, true)); root.addView(Ui.text(this, recipe.ingredients, 17, false));
-        root.addView(Ui.text(this, "Приготовление", 22, true)); root.addView(Ui.text(this, recipe.steps, 17, false));
+        Ui.space(root, 9); android.widget.TextView enlarge = Ui.muted(this, "Нажмите на фото, чтобы увеличить", 13);
+        enlarge.setGravity(android.view.Gravity.CENTER); root.addView(enlarge);
+        Ui.space(root, 19); android.widget.TextView category = Ui.muted(this, recipe.category.toUpperCase(java.util.Locale.ROOT), 12);
+        category.setLetterSpacing(.12f); root.addView(category); Ui.space(root, 6);
+        root.addView(Ui.text(this, recipe.title, 30, true)); Ui.space(root, 13);
+        android.widget.TextView duration = Ui.text(this, "◷   " + recipe.minutes + " минут приготовления", 15, false);
+        duration.setTextColor(Ui.ACCENT); root.addView(duration);
+        Ui.space(root, 26);
+        section(root, "Ингредиенты", recipe.ingredients);
+        Ui.space(root, 16);
+        section(root, "Приготовление", recipe.steps);
+        Ui.space(root, 28);
+        root.addView(Ui.text(this, "План готовки", 20, true)); Ui.space(root, 7);
+        root.addView(Ui.muted(this, recipe.calendarEventId == null
+                ? "Добавьте блюдо в календарь и получите напоминание за час."
+                : "Для этого рецепта уже есть событие. Можно выбрать новую дату.", 15));
+        Ui.space(root, 13);
         calendarButton = Ui.button(this, recipe.calendarEventId == null ? "Запланировать готовку" : "Изменить дату готовки");
-        root.addView(calendarButton); calendarButton.setOnClickListener(v -> {
+        root.addView(calendarButton, new LinearLayout.LayoutParams(-1, Ui.dp(this, 56)));
+        calendarButton.setOnClickListener(v -> {
             if (hasCalendarPermission()) pickDate(); else permissionRequest.launch(new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR});
         });
-        Button delete = Ui.button(this, "Удалить рецепт"); root.addView(delete);
+        Ui.space(root, 20);
+        com.google.android.material.button.MaterialButton delete = new com.google.android.material.button.MaterialButton(this);
+        delete.setText("Удалить рецепт"); delete.setAllCaps(false); delete.setTextColor(Ui.ACCENT);
+        delete.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Ui.SAND));
+        delete.setCornerRadius(Ui.dp(this, 16)); root.addView(delete, new LinearLayout.LayoutParams(-1, Ui.dp(this, 52)));
         delete.setOnClickListener(v -> new AlertDialog.Builder(this).setTitle("Удалить рецепт?")
                 .setMessage("Фотография и связанное событие календаря тоже будут удалены.")
                 .setNegativeButton("Отмена", null).setPositiveButton("Удалить", (d, w) -> deleteRecipe()).show());
         setContentView(scroll);
+    }
+    private void section(LinearLayout root, String heading, String body) {
+        LinearLayout card = new LinearLayout(this); card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(Ui.dp(this, 18), Ui.dp(this, 17), Ui.dp(this, 18), Ui.dp(this, 18));
+        card.setBackground(Ui.rounded(this, 0xffffffff, 20));
+        card.addView(Ui.text(this, heading, 20, true)); Ui.space(card, 11);
+        android.widget.TextView content = Ui.text(this, body, 16, false); content.setLineSpacing(Ui.dp(this, 4), 1f);
+        card.addView(content); root.addView(card);
     }
     private boolean hasCalendarPermission() {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED &&

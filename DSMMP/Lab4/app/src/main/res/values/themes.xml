@@ -1,1 +1,1 @@
-<resources><style name="Theme.Lab4" parent="Theme.MaterialComponents.DayNight.NoActionBar"><item name="colorPrimary">#A43F28</item><item name="colorPrimaryVariant">#7D2C1C</item><item name="colorOnPrimary">#FFFFFF</item></style></resources>
+<resources><style name="Theme.Lab4" parent="Theme.MaterialComponents.Light.NoActionBar"><item name="colorPrimary">#A43F28</item><item name="colorPrimaryVariant">#7D2C1C</item><item name="colorOnPrimary">#FFFFFF</item></style></resources>
