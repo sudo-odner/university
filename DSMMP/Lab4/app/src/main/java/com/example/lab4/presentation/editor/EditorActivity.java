@@ -16,6 +16,8 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.example.lab4.data.media.PhotoStore;
 import com.example.lab4.domain.model.Recipe;
@@ -36,6 +38,7 @@ public class EditorActivity extends AppCompatActivity {
     private ActivityResultLauncher<PickVisualMediaRequest> picker;
     private ActivityResultLauncher<Uri> camera;
     private File cameraFile;
+    private TextInputLayout focusedBox;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -83,20 +86,46 @@ public class EditorActivity extends AppCompatActivity {
         progress = new ProgressBar(this); progress.setVisibility(View.GONE); LinearLayout.LayoutParams spinner = new LinearLayout.LayoutParams(Ui.dp(this, 36), Ui.dp(this, 36)); spinner.gravity=Gravity.CENTER; root.addView(progress, spinner);
         save = Ui.button(this, "Сохранить рецепт"); root.addView(save, new LinearLayout.LayoutParams(-1, Ui.dp(this, 56))); save.setOnClickListener(v -> save());
         Ui.space(root, 8); TextView note = Ui.muted(this, "Фото сохранится только на этом устройстве.", 13); note.setGravity(Gravity.CENTER); root.addView(note);
+        View imeSpacer = new View(this); root.addView(imeSpacer, new LinearLayout.LayoutParams(1, 0));
+        int[] insetHeight = {0};
+        int[] visibleHeight = {0};
+        ViewCompat.setOnApplyWindowInsetsListener(scroll, (view, insets) -> {
+            insetHeight[0] = insets.isVisible(WindowInsetsCompat.Type.ime())
+                    ? insets.getInsets(WindowInsetsCompat.Type.ime()).bottom : 0;
+            updateKeyboardSpace(scroll, imeSpacer, Math.max(insetHeight[0], visibleHeight[0]));
+            return insets;
+        });
+        scroll.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            android.graphics.Rect visible = new android.graphics.Rect();
+            scroll.getWindowVisibleDisplayFrame(visible);
+            int hidden = Math.max(0, scroll.getRootView().getHeight() - visible.bottom);
+            visibleHeight[0] = hidden > Ui.dp(this, 150) ? hidden : 0;
+            updateKeyboardSpace(scroll, imeSpacer, Math.max(insetHeight[0], visibleHeight[0]));
+        });
         setContentView(scroll);
     }
+    private void updateKeyboardSpace(ScrollView scroll, View spacer, int keyboardHeight) {
+        int desired = keyboardHeight == 0 ? 0 : keyboardHeight + Ui.dp(this, 24);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) spacer.getLayoutParams();
+        if (params.height == desired) return;
+        params.height = desired; spacer.setLayoutParams(params);
+        if (keyboardHeight > 0 && focusedBox != null) scroll.post(() -> revealField(scroll, focusedBox));
+    }
+    private void revealField(ScrollView scroll, TextInputLayout box) {
+        scroll.smoothScrollTo(0, Math.max(0, box.getTop() - Ui.dp(this, 72)));
+    }
     private void keepVisibleWhenTyping(ScrollView scroll, TextInputLayout box, EditText input) {
-        Runnable reveal = () -> {
-            if (!input.hasFocus()) return;
-            android.graphics.Rect rect = new android.graphics.Rect(0, 0, box.getWidth(), box.getHeight());
-            scroll.requestChildRectangleOnScreen(box, rect, false);
-        };
         input.setOnFocusChangeListener((view, focused) -> {
-            if (focused) scroll.postDelayed(reveal, 300);
+            if (focused) {
+                focusedBox = box;
+                scroll.postDelayed(() -> revealField(scroll, box), 250);
+            } else if (focusedBox == box) focusedBox = null;
         });
         input.addTextChangedListener(new android.text.TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            public void onTextChanged(CharSequence s, int start, int before, int count) { scroll.post(reveal); }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (input.hasFocus()) scroll.post(() -> revealField(scroll, box));
+            }
             public void afterTextChanged(android.text.Editable s) { }
         });
     }
