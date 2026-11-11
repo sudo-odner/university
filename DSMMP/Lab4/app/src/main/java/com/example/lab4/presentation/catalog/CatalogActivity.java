@@ -31,7 +31,7 @@ public class CatalogActivity extends AppCompatActivity {
     private TextView count;
     private EditText search;
     private boolean gridMode;
-    private TextView layoutToggle;
+    private com.google.android.material.button.MaterialButton layoutToggle;
     private List<Recipe> all = new ArrayList<>();
     private android.os.Parcelable scrollState;
     @Override public void onCreate(Bundle state) {
@@ -52,9 +52,12 @@ public class CatalogActivity extends AppCompatActivity {
         LinearLayout heading = new LinearLayout(this); heading.setGravity(Gravity.CENTER_VERTICAL);
         TextView label = Ui.text(this, "Коллекция", 22, true); heading.addView(label, new LinearLayout.LayoutParams(0, -2, 1));
         count = Ui.muted(this, "", 14); heading.addView(count);
-        layoutToggle = Ui.text(this, "▦", 25, false); layoutToggle.setTextColor(Ui.ACCENT);
-        layoutToggle.setGravity(Gravity.CENTER); layoutToggle.setContentDescription("Переключить список и сетку");
-        LinearLayout.LayoutParams toggleParams = new LinearLayout.LayoutParams(Ui.dp(this, 48), Ui.dp(this, 48));
+        layoutToggle = new com.google.android.material.button.MaterialButton(this);
+        layoutToggle.setAllCaps(false); layoutToggle.setTextSize(14); layoutToggle.setTextColor(Ui.ACCENT);
+        layoutToggle.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Ui.SAND));
+        layoutToggle.setCornerRadius(Ui.dp(this, 14)); layoutToggle.setInsetTop(0); layoutToggle.setInsetBottom(0);
+        layoutToggle.setContentDescription("Переключить список и сетку");
+        LinearLayout.LayoutParams toggleParams = new LinearLayout.LayoutParams(Ui.dp(this, 88), Ui.dp(this, 48));
         toggleParams.leftMargin = Ui.dp(this, 12); heading.addView(layoutToggle, toggleParams);
         layoutToggle.setOnClickListener(v -> setGridMode(!gridMode));
         root.addView(heading); Ui.space(root, 14);
@@ -65,7 +68,7 @@ public class CatalogActivity extends AppCompatActivity {
         list.setPadding(0, 0, 0, Ui.dp(this, 84));
         adapter = new RecipeAdapter(id -> startActivity(new Intent(this, DetailActivity.class).putExtra("id", id)));
         list.setAdapter(adapter); adapter.setGridMode(gridMode);
-        layoutToggle.setText(gridMode ? "☰" : "▦"); content.addView(list, new FrameLayout.LayoutParams(-1, -1));
+        layoutToggle.setText(gridMode ? "Список" : "Сетка"); content.addView(list, new FrameLayout.LayoutParams(-1, -1));
         empty = new LinearLayout(this); empty.setOrientation(LinearLayout.VERTICAL); empty.setGravity(Gravity.CENTER);
         empty.setPadding(Ui.dp(this, 24), Ui.dp(this, 30), Ui.dp(this, 24), Ui.dp(this, 30));
         empty.setBackground(Ui.rounded(this, Ui.SAND, 24));
@@ -91,7 +94,7 @@ public class CatalogActivity extends AppCompatActivity {
         gridMode = value; getPreferences(MODE_PRIVATE).edit().putBoolean("grid", value).apply();
         int position = ((LinearLayoutManager)list.getLayoutManager()).findFirstVisibleItemPosition();
         list.setLayoutManager(value ? new GridLayoutManager(this, 2) : new LinearLayoutManager(this));
-        adapter.setGridMode(value); layoutToggle.setText(value ? "☰" : "▦");
+        adapter.setGridMode(value); layoutToggle.setText(value ? "Список" : "Сетка");
         list.getLayoutManager().scrollToPosition(Math.max(0, position));
     }
     private void openEditor() { startActivity(new Intent(this, EditorActivity.class)); }

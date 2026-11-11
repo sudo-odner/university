@@ -45,7 +45,7 @@ public class EditorActivity extends AppCompatActivity {
             if (ok && cameraUri != null) choose(cameraUri); else cleanupCamera();
         });
         ScrollView scroll = new ScrollView(this); scroll.setFillViewport(true); LinearLayout root = Ui.column(this); scroll.addView(root);
-        TextView back = Ui.muted(this, "‹  Все рецепты", 16); back.setMinHeight(Ui.dp(this, 48)); back.setGravity(Gravity.CENTER_VERTICAL); root.addView(back); back.setOnClickListener(v -> finish());
+        MaterialButton back = Ui.backButton(this); root.addView(back, new LinearLayout.LayoutParams(-2, Ui.dp(this, 52))); back.setOnClickListener(v -> finish());
         Ui.space(root, 20); root.addView(Ui.text(this, "Новый рецепт", 30, true));
         Ui.space(root, 6); root.addView(Ui.muted(this, "Запишите всё, чтобы повторить блюдо в любой момент.", 15));
         Ui.space(root, 26);

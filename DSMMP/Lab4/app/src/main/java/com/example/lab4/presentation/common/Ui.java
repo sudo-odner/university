@@ -35,6 +35,14 @@ public final class Ui {
         b.setCornerRadius(dp(c, 16)); b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ACCENT));
         b.setTextColor(Color.WHITE); b.setMinHeight(dp(c, 54)); return b;
     }
+    public static MaterialButton backButton(Context c) {
+        MaterialButton b = new MaterialButton(c);
+        b.setText("←  Все рецепты"); b.setAllCaps(false); b.setTextSize(16);
+        b.setTextColor(ACCENT); b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(SAND));
+        b.setCornerRadius(dp(c, 14)); b.setMinWidth(dp(c, 178)); b.setMinHeight(dp(c, 52));
+        b.setInsetTop(0); b.setInsetBottom(0);
+        b.setContentDescription("Вернуться ко всем рецептам"); return b;
+    }
     public static void space(LinearLayout l, int dp) {
         View v = new View(l.getContext()); l.addView(v, new LinearLayout.LayoutParams(1, Ui.dp(l.getContext(), dp)));
     }

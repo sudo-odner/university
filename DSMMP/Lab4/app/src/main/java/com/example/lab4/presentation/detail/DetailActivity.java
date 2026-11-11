@@ -49,8 +49,8 @@ public class DetailActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Ui.CREAM);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         ScrollView scroll = new ScrollView(this); LinearLayout root = Ui.column(this); scroll.addView(root);
-        android.widget.TextView back = Ui.muted(this, "‹  Все рецепты", 16);
-        back.setMinHeight(Ui.dp(this, 48)); back.setGravity(android.view.Gravity.CENTER_VERTICAL); root.addView(back); back.setOnClickListener(v -> finish()); Ui.space(root, 18);
+        com.google.android.material.button.MaterialButton back = Ui.backButton(this);
+        root.addView(back, new LinearLayout.LayoutParams(-2, Ui.dp(this, 52))); back.setOnClickListener(v -> finish()); Ui.space(root, 18);
         ImageView image = new ImageView(this); image.setScaleType(ImageView.ScaleType.CENTER_CROP);
         image.setBackground(Ui.rounded(this, Ui.SAND, 22)); image.setClipToOutline(true);
         root.addView(image, new LinearLayout.LayoutParams(-1, Ui.dp(this, 270)));
