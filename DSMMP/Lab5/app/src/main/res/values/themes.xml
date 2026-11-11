@@ -1,5 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Lab5" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Lab5" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#0F5B78</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:alertDialogTheme">@style/FinanceDialog</item>
+    </style>
+    <style name="FinanceDialog" parent="android:style/Theme.Material.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+        <item name="android:colorAccent">#0F5B78</item>
+    </style>
 </resources>
