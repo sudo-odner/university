@@ -28,5 +28,6 @@ dependencies {
     implementation(libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation("androidx.test:core:1.6.1")
     androidTestImplementation(libs.androidx.espresso.core)
 }

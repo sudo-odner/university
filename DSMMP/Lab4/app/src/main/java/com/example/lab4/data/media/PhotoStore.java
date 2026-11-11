@@ -23,8 +23,7 @@ public class PhotoStore implements PhotoRepository {
         }
         if (bounds.outWidth <= 0 || bounds.outHeight <= 0) throw new IllegalArgumentException("Неверный формат изображения");
         BitmapFactory.Options options = new BitmapFactory.Options();
-        int longest = Math.max(bounds.outWidth, bounds.outHeight);
-        while (longest / options.inSampleSize > 2048) options.inSampleSize *= 2;
+        options.inSampleSize = calculateSampleSize(bounds.outWidth, bounds.outHeight);
         Bitmap decoded;
         try (InputStream stream = context.getContentResolver().openInputStream(source)) {
             if (stream == null) throw new IllegalArgumentException("Не удалось открыть фотографию");
@@ -60,6 +59,12 @@ public class PhotoStore implements PhotoRepository {
             output.delete(); throw e;
         } finally { scaled.recycle(); }
         return output.getAbsolutePath();
+    }
+    static int calculateSampleSize(int width, int height) {
+        int sampleSize = 1;
+        int longest = Math.max(width, height);
+        while (longest / sampleSize > 2048) sampleSize *= 2;
+        return sampleSize;
     }
     @Override public void delete(String path) {
         if (path != null) {
