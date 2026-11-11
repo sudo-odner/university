@@ -44,7 +44,7 @@ public class EditorActivity extends AppCompatActivity {
         camera = registerForActivityResult(new ActivityResultContracts.TakePicture(), ok -> {
             if (ok && cameraUri != null) choose(cameraUri); else cleanupCamera();
         });
-        ScrollView scroll = new ScrollView(this); scroll.setFillViewport(true); LinearLayout root = Ui.column(this); scroll.addView(root);
+        ScrollView scroll = new ScrollView(this); scroll.setFillViewport(true); scroll.setClipToPadding(false); LinearLayout root = Ui.column(this); scroll.addView(root);
         MaterialButton back = Ui.backButton(this); root.addView(back, new LinearLayout.LayoutParams(-2, Ui.dp(this, 52))); back.setOnClickListener(v -> finish());
         Ui.space(root, 20); root.addView(Ui.text(this, "Новый рецепт", 30, true));
         Ui.space(root, 6); root.addView(Ui.muted(this, "Запишите всё, чтобы повторить блюдо в любой момент.", 15));
@@ -74,11 +74,31 @@ public class EditorActivity extends AppCompatActivity {
         Ui.space(root, 18); root.addView(Ui.text(this, "Как приготовить", 20, true)); Ui.space(root, 12);
         ingredientsBox = field(root, "Ингредиенты", "Каждый ингредиент с новой строки", true); ingredients = ingredientsBox.getEditText();
         stepsBox = field(root, "Пошаговое описание", "Опишите последовательность действий", true); steps = stepsBox.getEditText();
+        keepVisibleWhenTyping(scroll, titleBox, title);
+        keepVisibleWhenTyping(scroll, categoryBox, category);
+        keepVisibleWhenTyping(scroll, minutesBox, minutes);
+        keepVisibleWhenTyping(scroll, ingredientsBox, ingredients);
+        keepVisibleWhenTyping(scroll, stepsBox, steps);
         Ui.space(root, 20);
         progress = new ProgressBar(this); progress.setVisibility(View.GONE); LinearLayout.LayoutParams spinner = new LinearLayout.LayoutParams(Ui.dp(this, 36), Ui.dp(this, 36)); spinner.gravity=Gravity.CENTER; root.addView(progress, spinner);
         save = Ui.button(this, "Сохранить рецепт"); root.addView(save, new LinearLayout.LayoutParams(-1, Ui.dp(this, 56))); save.setOnClickListener(v -> save());
         Ui.space(root, 8); TextView note = Ui.muted(this, "Фото сохранится только на этом устройстве.", 13); note.setGravity(Gravity.CENTER); root.addView(note);
         setContentView(scroll);
+    }
+    private void keepVisibleWhenTyping(ScrollView scroll, TextInputLayout box, EditText input) {
+        Runnable reveal = () -> {
+            if (!input.hasFocus()) return;
+            android.graphics.Rect rect = new android.graphics.Rect(0, 0, box.getWidth(), box.getHeight());
+            scroll.requestChildRectangleOnScreen(box, rect, false);
+        };
+        input.setOnFocusChangeListener((view, focused) -> {
+            if (focused) scroll.postDelayed(reveal, 300);
+        });
+        input.addTextChangedListener(new android.text.TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { scroll.post(reveal); }
+            public void afterTextChanged(android.text.Editable s) { }
+        });
     }
     private TextInputLayout field(LinearLayout root, String label, String hint, boolean multiline) {
         TextView caption = Ui.text(this, label, 15, true); root.addView(caption); Ui.space(root, 7);

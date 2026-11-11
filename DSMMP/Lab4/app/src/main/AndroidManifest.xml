@@ -8,7 +8,7 @@
         android:supportsRtl="true" android:theme="@style/Theme.Lab4">
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true"><meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/></provider>
         <activity android:name=".presentation.photo.PhotoActivity" android:exported="false" />
-        <activity android:name=".presentation.editor.EditorActivity" android:exported="false" />
+        <activity android:name=".presentation.editor.EditorActivity" android:exported="false" android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".presentation.detail.DetailActivity" android:exported="false" />
         <activity android:name=".presentation.catalog.CatalogActivity" android:exported="true">
             <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
